@@ -3,7 +3,11 @@ node_modules/
 dist/
 dist-electron/
 build/
+release/
 .env.local
 npm-debug.log*
 yarn-debug.log*
 yarn-error.log*
+*.exe
+*.zip
+*.7z

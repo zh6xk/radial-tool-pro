@@ -2,21 +2,19 @@ const { app, BrowserWindow, ipcMain, screen, shell } = require('electron');
 const path = require('path');
 
 let mainWindow = null;
-const isDev = process.env.NODE_ENV !== 'production';
+const isDev = !app.isPackaged;
 
 function createWindow() {
-  const primaryDisplay = screen.getPrimaryDisplay();
-  const { width, height } = primaryDisplay.workAreaSize;
-
   mainWindow = new BrowserWindow({
-    width: 600,
-    height: 600,
+    width: 700,
+    height: 700,
     frame: false,
     transparent: true,
     alwaysOnTop: true,
-    skipTaskbar: true,
+    skipTaskbar: false,
     hasShadow: false,
     resizable: false,
+    show: true,
     backgroundColor: '#00000000',
     webPreferences: {
       preload: path.join(__dirname, 'preload.js'),
@@ -32,6 +30,11 @@ function createWindow() {
   } else {
     mainWindow.loadFile(path.join(__dirname, '../dist/index.html'));
   }
+
+  mainWindow.webContents.on('did-fail-load', (e, code, desc) => {
+    console.error('Failed to load:', code, desc);
+    mainWindow.loadFile(path.join(__dirname, '../dist/index.html'));
+  });
 
   mainWindow.on('closed', () => {
     mainWindow = null;
