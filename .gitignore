@@ -1,0 +1,9 @@
+# Node & Build artifacts
+node_modules/
+dist/
+dist-electron/
+build/
+.env.local
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
